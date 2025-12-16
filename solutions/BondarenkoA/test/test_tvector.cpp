@@ -180,3 +180,8 @@ TEST(TDynamicVector, cant_multiply_vectors_with_not_equal_size) {
     TDynamicVector<int> v1(3), v2(5);
     ASSERT_ANY_THROW(v1 * v2);
 }
+
+TEST(TDynamicVector, cant_create_vector_with_null_size) {
+    TDynamicVector<int> v(0);
+    EXPECT_EQ(v.size(), 0);
+}

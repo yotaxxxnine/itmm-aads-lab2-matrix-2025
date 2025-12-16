@@ -160,3 +160,7 @@ TEST(TDynamicMatrix, cant_subtract_matrixes_with_not_equal_size)
 	ASSERT_ANY_THROW(m1 - m2);
 }
 
+TEST(TDynamicMatrix, cant_create_vector_with_null_size) {
+	TDynamicMatrix<int> m(0);
+	EXPECT_EQ(m.size(), 0);
+}

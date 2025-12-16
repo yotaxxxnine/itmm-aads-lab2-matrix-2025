@@ -37,6 +37,8 @@ protected:
       единых перегруженных операторов << и >> */
     virtual void In(istream&);
     virtual void Out(ostream&);
+    // функция попытки выделения памяти для вектора
+    inline void memory_try(size_t size);
 
 public:
     TDynamicVector(size_t size = 1);
@@ -85,8 +87,7 @@ public:
     template<typename T>
     friend ostream& operator<<(ostream& ostr, TDynamicVector<T>& v);
 
-    // функция попытки выделения памяти для вектора
-    inline void memory_try(size_t size);
+
 };
 #pragma endregion
 
@@ -151,20 +152,14 @@ template<typename T>
 T&
 TDynamicVector<T>::operator[](size_t ind)
 {
-    if (ind >= sz)
-        throw out_of_range("Index out of range");
     return pMem[ind];
-
 }
 
 template<typename T>
 const T&
 TDynamicVector<T>::operator[](size_t ind) const
 {
-    if (ind >= sz)
-        throw out_of_range("Index out of range");
     return pMem[ind];
-
 }
 
 // индексация с контролем
@@ -172,7 +167,7 @@ template<typename T>
 T&
 TDynamicVector<T>::at(size_t ind)
 {
-    if (ind <= 0 && ind >= sz)
+    if (ind <= 0 || ind >= sz)
         throw out_of_range("Index out of range");
     return pMem[ind];
 }
@@ -181,7 +176,7 @@ template<typename T>
 const T&
 TDynamicVector<T>::at(size_t ind) const
 {
-    if (ind <= 0 && ind >= sz)
+    if (ind <= 0 || ind >= sz)
         throw out_of_range("Index out of range");
     return pMem[ind];
 }
@@ -277,7 +272,7 @@ TDynamicVector<T>::operator-(T val)
 {
     TDynamicVector temp(*this);
     for (size_t i = 0; i < sz; ++i)
-        temp[i] -= static_cast<T>(val);
+        temp[i] -= (val);
     return temp;
 }
 
@@ -287,7 +282,7 @@ TDynamicVector<T>::operator*(T val)
 {
     TDynamicVector temp(*this);
     for (size_t i = 0; i < sz; ++i)
-        temp[i] *= static_cast<T>(val);
+        temp[i] *= (val);
     return temp;
 }
 
@@ -398,9 +393,9 @@ class TDynamicMatrix : private TDynamicVector<TDynamicVector<T>>
     using TDynamicVector<TDynamicVector<T>>::sz;
 
 private:
-    //TDynamicVector<T>* mtr;
-
-
+    // ввод/вывод
+    void In(istream&) override;
+    void Out(ostream&) override;
 public:
     TDynamicMatrix(size_t s = 1);
     TDynamicMatrix(const TDynamicMatrix& m);
@@ -422,9 +417,6 @@ public:
     TDynamicMatrix<T> operator-(const TDynamicMatrix<T>& m);
     TDynamicMatrix<T> operator*(const TDynamicMatrix<T>& m);
 
-    // ввод/вывод
-    void In(istream&) override;
-    void Out(ostream&) override;
     template<typename T>
     friend istream& operator>>(istream& istr, TDynamicMatrix<T>& v);
     template<typename T>
