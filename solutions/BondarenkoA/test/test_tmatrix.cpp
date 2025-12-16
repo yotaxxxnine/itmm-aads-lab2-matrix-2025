@@ -12,6 +12,11 @@ TEST(TDynamicMatrix, cant_create_too_large_matrix)
   ASSERT_ANY_THROW(TDynamicMatrix<int> m(MAX_MATRIX_SIZE + 1));
 }
 
+TEST(TDynamicMatrix, cant_create_matrix_with_null_size)
+{
+	ASSERT_ANY_THROW(TDynamicMatrix<int> m(0));
+}
+
 TEST(TDynamicMatrix, throws_when_create_matrix_with_negative_length)
 {
   ASSERT_ANY_THROW(TDynamicMatrix<int> m(-5));
@@ -158,9 +163,4 @@ TEST(TDynamicMatrix, cant_subtract_matrixes_with_not_equal_size)
 	TDynamicMatrix<int> m1(3);
 	TDynamicMatrix<int> m2(4);
 	ASSERT_ANY_THROW(m1 - m2);
-}
-
-TEST(TDynamicMatrix, cant_create_vector_with_null_size) {
-	TDynamicMatrix<int> m(0);
-	EXPECT_EQ(m.size(), 0);
 }

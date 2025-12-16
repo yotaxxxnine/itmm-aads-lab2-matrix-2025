@@ -9,6 +9,10 @@ TEST(TDynamicVector, cant_create_too_large_vector) {
     ASSERT_ANY_THROW(TDynamicVector<int> v(MAX_VECTOR_SIZE + 1));
 }
 
+TEST(TDynamicVector, cant_create_vector_with_null_size) {
+    ASSERT_ANY_THROW(TDynamicVector<int> v(0));
+}
+
 TEST(TDynamicVector, throws_when_create_vector_with_negative_length) {
     ASSERT_ANY_THROW(TDynamicVector<int> v(-5));
 }
@@ -181,7 +185,3 @@ TEST(TDynamicVector, cant_multiply_vectors_with_not_equal_size) {
     ASSERT_ANY_THROW(v1 * v2);
 }
 
-TEST(TDynamicVector, cant_create_vector_with_null_size) {
-    TDynamicVector<int> v(0);
-    EXPECT_EQ(v.size(), 0);
-}
